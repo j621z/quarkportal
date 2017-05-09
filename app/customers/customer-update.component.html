@@ -1,0 +1,155 @@
+
+<div *ngIf="ModalIsVisible" class="modal fade show in danger" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="closeCustomerModal()">&times;</button>
+                <h1 class="modal-title">Update Customer</h1>
+            </div>
+            <div class="modal-body">
+                <!-- form -->
+                <div *ngIf="showForm" id="updateForm">
+                    <form class="form-horizontal" role="form" [ngFormModel]="customerForm" (ngSubmit)="onSubmit($event)"
+                        id="updateCustomerForm" name="updateCustomer">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                for="status" >Name<span class="colon">:</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" ngControl="fullName" [(ngModel)]="customer.fullName"  id="fullName" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                for="status" >Status<span class="colon">:</span></label>
+                            <div class="col-sm-8">
+                                <select name="status" id="status" ngControl="status"
+                                    [ngModel]="customer.status | lowercase" (ngModelChange)="customer.status=$event">
+                                    <option value="pending">Pending</option>
+                                    <option value="registered">Registered</option>
+                                    <option value="unregistered">Unregistered</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                for="customerRoleId" >Role<span class="colon">:</span></label>
+                            <div class="col-sm-8">
+                                <select id="customerRoleId" ngControl="customerRoleId" [(ngModel)]="customer.customerRoleId">
+                                    <option value="1">Customer(Limited)</option>
+                                    <option value="2">Customer</option>
+                                    <option value="3">Consultant</option>
+                                    <option value="4">Account Reviewer</option>
+                                    <option value="5">Account Administrator</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ngControl="delegatedAdmin" [(ngModel)]="customer.delegatedAdmin" id="delegatedAdmin">
+                                    <span class="control-label"> Delegated Admin </span>
+                                </label>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div id="addressFields">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                    for="address1" >Address 1<span class="colon">:</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" ngControl="address1" [(ngModel)]="customer.address1" 
+                                        id="address1" placeholder="Address 1">
+                                    <control-messages control="address1"></control-messages>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                    for="address2" >Address 2<span class="colon">:</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" ngControl="address2" [(ngModel)]="customer.address2" 
+                                        id="address2" placeholder="Address 2">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                    for="city" >City / Town<span class="colon">:</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" ngControl="city"  [(ngModel)]="customer.city"
+                                        id="city" placeholder="City / Town">
+                                    <control-messages control="city"></control-messages>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                    for="state" >State / Province<span class="colon">:</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text"  ngControl="state" [(ngModel)]="customer.state"
+                                        id="state" placeholder="State">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                    for="zipCode" >Zip / Postal Code<span class="colon">:</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text"  ngControl="zipCode" [(ngModel)]="customer.zipCode"
+                                        id="zipCode" placeholder="Zip or Postal Code">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="countryId">
+                                    Country <span class="colon">:</span></label>
+                                <div class="col-sm-8">
+                                    <select ngControl="countryId" [(ngModel)]="customer.countryId" id="countryId" >
+                                        <option *ngFor='let country of countries' [value]='country.id'>{{ country.value }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="businessPhone">Business Phone<span class="colon">:</span></label>
+                                <div class="col-sm-4 control-label">
+                                    <input type="text"   
+                                        id="businessPhone" placeholder="Business Phone"
+                                        [(ngModel)]="customer.businessPhone" ngControl="businessPhone">
+                                    <control-messages control="businessPhone"></control-messages>
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="mobilePhone">Mobile Phone<span class="colon">:</span></label>
+                                <div class="col-sm-4 control-label">
+                                    <input type="text"  id="mobilePhone" 
+                                        placeholder="Mobile Phone" [(ngModel)]="customer.mobilePhone" 
+                                        ngControl="mobilePhone">
+                                    <input type="hidden" ngControl="id" id="id" [(ngModel)]="customer.id">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" [disabled]="!customerForm.valid">Submit</button>
+                                <button type="button" id="cancel" (click)="closeCustomerModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
+            </div>
+            <div *ngIf="showConfirmationElements" id="confirmation">
+                <div class="container container-table">
+                    <div class="row vertical-center-row">
+                        <span class="successmessage">{{ message }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="showConfirmationElements" type="button" class="btn btn-default" (click)="closeCustomerModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

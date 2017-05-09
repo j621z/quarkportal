@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <base href="/">
+    <title>Quark Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="app/app.30029_nf_style.css" rel="stylesheet" />
+
+    <!-- 1. Load libraries -->
+     <!-- Polyfill(s) for older browsers -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js">
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    
+
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+  </head>
+  
+  <!-- 3. Display the application -->
+  <body>
+    <q-app>Loading...</q-app>
+  </body>
+
+</html>

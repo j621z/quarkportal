@@ -1,0 +1,65 @@
+[
+  {
+    "id": 47900,
+    "accountId": 0,
+    "fullName": "Alexander Campbell",
+    "email": "acampbell@parature.com",
+    "customerRoleId": 2,
+    "status": "UNREGISTERED",
+    "delegatedAdmin": false
+  },
+  {
+    "id": 10012,
+    "accountId": 0,
+    "fullName": "Adam Hong",
+    "email": "ahong@parature.com",
+    "customerRoleId": 3,
+    "status": "REGISTERED",
+    "delegatedAdmin": true
+  },
+  {
+    "id": 20870,
+    "accountId": 0,
+    "fullName": "Adam Hong",
+    "email": "ahong43@gmail.com",
+    "customerRoleId": 2,
+    "status": "REGISTERED",
+    "delegatedAdmin": false
+  },
+  {
+    "id": 91794,
+    "accountId": 0,
+    "fullName": "Janette Zuluaga",
+    "email": "janette.zuluaga@microsoft.com",
+    "customerRoleId": 5,
+    "status": "REGISTERED",
+    "delegatedAdmin": true
+  },
+  {
+    "id": 12333,
+    "accountId": 0,
+    "fullName": "Kelly Flynn",
+    "email": "kellyflynn@parature.com",
+    "customerRoleId": 2,
+    "status": "REGISTERED",
+    "delegatedAdmin": true
+  },
+  {
+    "id": 39193,
+    "accountId": 0,
+    "fullName": "Simons Laurelyn",
+    "email": "lsimons@parature.com",
+    "customerRoleId": 2,
+    "status": "UNREGISTERED",
+    "delegatedAdmin": false
+  },
+  {
+    "id": 17659,
+    "accountId": 0,
+    "fullName": "Pankaj Pankaj",
+    "email": "pbagga@parature.com",
+    "customerRoleId": 5,
+    "status": "UNREGISTERED",
+    "delegatedAdmin": false
+  }
+]

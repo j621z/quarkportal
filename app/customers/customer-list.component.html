@@ -1,0 +1,159 @@
+﻿<div id="pendingDiv">
+    <h1 id="pendingTitle">{{pageTitle}}</h1>
+    <div id="userWrapper">
+        <table *ngIf='customers && customers.length'>
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Status</th><th>Role</th><th>Delegated Admin</th><th>Update</th></tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let customer of customers | customerFilter : listFilterOut' id="pendingRow{{ customer.id }}">
+                    <td class="name">{{ customer.fullName}}</td>
+                    <td class="email">{{ customer.email }}</td>
+                    <td class="status">
+                        <select name="status" class="status_field" [ngModel]="customer.status | uppercase" (ngModelChange)="customer.status=$event">
+                            <option value="PENDING">Pending</option>
+                            <option value="REGISTERED">Registered</option>
+                            <option value="UNREGISTERED">Unregistered</option>
+                        </select>
+                    </td>
+                    <td class="role">
+                        <select name="role" class="role_field" [(ngModel)]="customer.customerRoleId">
+                            <option value="1">Customer(Limited)</option>
+                            <option value="2">Customer</option>
+                            <option value="3">Consultant</option>
+                            <option value="4">Account Reviewer</option>
+                            <option value="5">Account Administrator</option>
+                        </select>
+                    </td>
+                    <td class="delegated">
+                        <input type="checkbox" class="delegatedAdmin" [(ngModel)]="customer.delegatedAdmin">
+                    </td>
+                    <td class="update">
+                        <button class="update" (click)='openCustomerModal(customer)' >Update</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <span> {{!filterList ? 'Hide' : 'Show'}} Unregistered Customers: </span>
+    <input type="checkbox" id="hideUnregistered" [(ngModel)]='filterList' (click)='setFilter()' /><br>
+    <button id="createCustomer" (click)='showCreateCustomer()'>Create a new Customer</button>
+    <button id="updateAll" (click)='updateAll()'>Update All</button>
+    <button id="customerRefresh">Refresh</button>
+    <input type="hidden" id="hidStatusFilter" name="hidStatusFilter" [(ngModel)]='listFilterOut' />
+
+    <span class="successmessage" [hidden]="hideMessage" [ngClass]="{fade: startFade}">{{ errorMessage }}</span>
+
+    <!-- create new customer -->
+    <div id="newCustomer" *ngIf='showCustomer'>
+        <h2>Create a New Customer</h2>    
+        <form  *ngIf="showEmptyForm" [ngFormModel]="customerForm" (ngSubmit)="onSubmit($event)" id="form1">
+            <div id="customerFields">   
+                <div class="form-group row">
+                    <label for="firstName" class="col-sm-2 control-label">First Name<span class="colon">:</span></label>
+                    <div class="col-sm-4">
+                        <input ngControl="firstName" id="firstName" type="text">
+                        <control-messages control="firstName"></control-messages>
+                    </div>
+                    <label for="lastName" class="col-sm-2 control-label">Last Name<span class="colon">:</span></label>
+                    <div class="col-sm-4">
+                        <input ngControl="lastName" id="lastName" type="text">
+                        <control-messages control="lastName"></control-messages>
+                    </div>  
+                </div>
+                
+                <div class="form-group row">
+                   <label for="customerRoleId" class="col-sm-2 control-label">Role<span class="colon">:</span></label>
+                   <div class="col-sm-4">
+                        <select ngControl="customerRoleId" id="customerRoleId">
+                            <option value="1">Customer(Limited)</option>
+                            <option value="2">Customer</option>
+                            <option value="3">Consultant</option>
+                            <option value="4">Account Reviewer</option>
+                            <option value="5">Account Administrator</option>
+                        </select>
+                   </div>
+                   <label for="delegatedAdmin" class="col-sm-2 control-label">Delegated Administrator<span class="colon">:</span></label>
+                   <div class="col-sm-4">
+                        <input ngControl="delegatedAdmin" id="delegatedAdmin" type="checkbox">
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 control-label">Email<span class="colon">:</span></label>
+                    <div class="col-sm-10">
+                        <input ngControl="email" id="email" type="text">
+                        <control-messages control="email"></control-messages>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="address1" class="col-sm-2 control-label">Address Line 1<span class="colon">:</span></label>
+                    <div class="col-sm-10">
+                        <input ngControl="address1" id="address1" type="text">
+                        <control-messages control="address1"></control-messages>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="address2" class="col-sm-2 control-label">Address Line 2<span class="colon">:</span></label>
+                    <div class="col-sm-10">
+                        <input ngControl="address2" id="address2" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="city" class="col-sm-2 control-label">City<span class="colon">:</span></label>
+                    <div class="col-sm-4">
+                        <input ngControl="city" id="city" type="text">
+                        <control-messages control="city"></control-messages>
+                    </div>
+                    <label for="state" class="col-sm-2 control-label">State / Province<span class="colon">:</span></label>
+                    <div class="col-sm-4">
+                        <input ngControl="state" id="state" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="zipCode" class="col-sm-2 control-label">Zip / Postal Code<span class="colon">:</span></label>
+                    <div class="col-sm-10">
+                        <input ngControl="zipCode" id="zipCode" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="countryId" class="col-sm-2 control-label">Country<span class="colon">:</span></label>
+                    <div class="col-sm-10">
+                        <select ngControl="countryId" id="countryId">
+                            <option *ngFor='let country of countries' [value]='country.id'>{{ country.value }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="businessPhone" class="col-sm-2 control-label">Business Phone<span class="colon">:</span></label>
+                    <div class="col-sm-4">
+                        <input ngControl="businessPhone" id="businessPhone" type="text">
+                        <control-messages control="businessPhone"></control-messages>
+                    </div>
+                    <label for="mobilePhone" class="col-sm-2 control-label">Mobile Phone<span class="colon">:</span></label>
+                    <div class="col-sm-4">
+                        <input ngControl="mobilePhone" id="mobilePhone" type="text">
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" [disabled]="!customerForm.valid">Submit</button>
+                    <button type="button" (click)='hideCreateCustomer()' id="Cancel">Cancel</button>
+                </div>
+            </div>
+        </form><!-- form should end here -->
+    </div>
+    <!-- end create new customer -->
+
+    <customer-modal></customer-modal>
+</div>
+<!-- pendingDiv end //-->
+
+
+
+
